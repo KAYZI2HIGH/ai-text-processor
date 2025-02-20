@@ -14,12 +14,12 @@ export default function RootLayout({ children }) {
         {/* Language Detector API */}
         <meta
           httpEquiv="origin-trial"
-          content="AlvnQOgXEaDkm1KTvW3ZasTnP5EAdLCnhbhfTzwAE2D5V1t2jyJ3+jjnQWgXOtgO40FeJ2rt7V69DIsxHW/7uA4AAABXeyJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJmZWF0dXJlIjoiTGFuZ3VhZ2VEZXRlY3Rpb25BUEkiLCJleHBpcnkiOjE3NDk1OTk5OTl9"
+          content="ApGOmyTbgqLf5IUITDWHfAV6gON9BSUL/QmlXmztCGiG84EfL5COmGBfha11XbUJahRDJNVabIZKnit2UBbhswMAAACDeyJvcmlnaW4iOiJodHRwczovL2FpLXRleHQtcHJvY2Vzc29yLW9tZWdhLnZlcmNlbC5hcHA6NDQzIiwiZmVhdHVyZSI6Ikxhbmd1YWdlRGV0ZWN0aW9uQVBJIiwiZXhwaXJ5IjoxNzQ5NTk5OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0="
         />
         {/* Tranlator API */}
         <meta
           httpEquiv="origin-trial"
-          content="Aoeg49e8gXziww8aMaciOT3ocfAg14TCdd6srBr0/ENCVaog72otR4Or4Qjz9qByZNGl2mbK/pxvft9j0jf8sw0AAABReyJvcmlnaW4iOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJmZWF0dXJlIjoiVHJhbnNsYXRpb25BUEkiLCJleHBpcnkiOjE3NTMxNDI0MDB9"
+          content="AlZJ9f8wkZLm1eXyKo8QdqHbGi6Zgse9iB1G/1P4o/GKTzFNsxf/VpucRtFYy47uTCdJ4q20hSbPflAE/JroOAwAAAB9eyJvcmlnaW4iOiJodHRwczovL2FpLXRleHQtcHJvY2Vzc29yLW9tZWdhLnZlcmNlbC5hcHA6NDQzIiwiZmVhdHVyZSI6IlRyYW5zbGF0aW9uQVBJIiwiZXhwaXJ5IjoxNzUzMTQyNDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZX0="
         />
         {/* Summarization API */}
         <meta
