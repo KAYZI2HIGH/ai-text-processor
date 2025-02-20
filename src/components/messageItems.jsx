@@ -6,9 +6,10 @@ import { AlertTriangle, Loader2 } from "lucide-react";
 import DownloadButton from "./DownloadButton";
 import { v4 as uuid } from "uuid";
 
-export const MessageItems = ({ message, onUpdateMessage }) => {
+export const MessageItems = ({ message }) => {
   const { languages, setMessages, downloadProgress, setDownloadProgress } =
     useAppContext();
+  const [selectedFeature, setSelectedFeature] = useState('')
 
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -19,7 +20,7 @@ export const MessageItems = ({ message, onUpdateMessage }) => {
     message.text.length > 150 && message.language === "en";
 
   const handleTranslate = async () => {
-    console.log(message);
+    setSelectedFeature('translate')
 
     if (message.language !== selectedLanguage) {
       if ("ai" in self && "translator" in self.ai) {
@@ -97,6 +98,7 @@ export const MessageItems = ({ message, onUpdateMessage }) => {
   };
 
   const handleSummarize = async () => {
+    setSelectedFeature('summarize')
     if ("ai" in self && "summarizer" in self.ai) {
       console.log("The summarization api is supported");
       const capability = await ai.summarizer.capabilities();
@@ -110,8 +112,10 @@ export const MessageItems = ({ message, onUpdateMessage }) => {
            setError("");
          }, 2000);
       } else if (available === "readily") {
+        setIsProcessing(true)
         summarizer = await self.ai.summarizer.create();
         const summary = await summarizer.summarize(message.text);
+        
 
         setMessages((prev) =>
           prev.map((msg) =>
@@ -123,6 +127,7 @@ export const MessageItems = ({ message, onUpdateMessage }) => {
               : msg
           )
         );
+        setIsProcessing(false);
       } else {
        setMessages((prev) =>
          prev.map((msg) =>
@@ -215,7 +220,7 @@ export const MessageItems = ({ message, onUpdateMessage }) => {
           <span className="text-sm">AI is processing...</span>
         </div>
       )}
-      {message.summary && !isDownloading && !isProcessing ? (
+      {message.summary && !isDownloading && !isProcessing && selectedFeature === 'summarize' ? (
         <div className="mt-2 p-3 bg-white rounded border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Summary:</div>
           <p className="text-gray-800">{message.summary}</p>
@@ -223,7 +228,7 @@ export const MessageItems = ({ message, onUpdateMessage }) => {
       ) : (
         ""
       )}
-      {message.translation && !isDownloading && !isProcessing ? (
+      {message.translation && !isDownloading && !isProcessing && selectedFeature === 'translate' ? (
         <div className="mt-2 p-3 bg-white rounded border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Translation:</div>
           <p className="text-gray-800">{message.translation}</p>

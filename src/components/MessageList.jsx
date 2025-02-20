@@ -35,7 +35,6 @@ export const MessagesList = () => {
         <MessageItems
           key={index}
           message={message}
-          downloadProgress={downloadProgress}
         />
       ))}
       
