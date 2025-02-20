@@ -9,7 +9,7 @@ import { v4 as uuid } from "uuid";
 export const MessageItems = ({ message }) => {
   const { languages, setMessages, downloadProgress, setDownloadProgress } =
     useAppContext();
-  const [selectedFeature, setSelectedFeature] = useState('')
+  const [selectedFeature, setSelectedFeature] = useState("");
 
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -20,7 +20,7 @@ export const MessageItems = ({ message }) => {
     message.text.length > 150 && message.language === "en";
 
   const handleTranslate = async () => {
-    setSelectedFeature('translate')
+    setSelectedFeature("translate");
 
     if (message.language !== selectedLanguage) {
       if ("ai" in self && "translator" in self.ai) {
@@ -98,58 +98,61 @@ export const MessageItems = ({ message }) => {
   };
 
   const handleSummarize = async () => {
-    setSelectedFeature('summarize')
-    if ("ai" in self && "summarizer" in self.ai) {
-      console.log("The summarization api is supported");
-      const capability = await ai.summarizer.capabilities();
-      const available = capability.available;
-      console.log(available);
-      let summarizer;
+    setSelectedFeature("summarize");
+    if (message.language === "en") {
+      if ("ai" in self && "summarizer" in self.ai) {
+        console.log("The summarization api is supported");
+        const capability = await ai.summarizer.capabilities();
+        const available = capability.available;
+        console.log(available);
+        let summarizer;
 
-      if (available === "no") {
-        setError("The summarization API can't be used at the moment.");
-         setTimeout(() => {
-           setError("");
-         }, 2000);
-      } else if (available === "readily") {
-        setIsProcessing(true)
-        summarizer = await self.ai.summarizer.create();
-        const summary = await summarizer.summarize(message.text);
-        
+        if (available === "no") {
+          setError("The summarization API can't be used at the moment.");
+          setTimeout(() => {
+            setError("");
+          }, 2000);
+        } else if (available === "readily") {
+          setIsProcessing(true);
+          summarizer = await self.ai.summarizer.create();
+          const summary = await summarizer.summarize(message.text);
 
-        setMessages((prev) =>
-          prev.map((msg) =>
-            msg.id === message.id
-              ? {
-                  ...msg,
-                  summary
-                }
-              : msg
-          )
-        );
-        setIsProcessing(false);
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === message.id
+                ? {
+                    ...msg,
+                    summary,
+                  }
+                : msg
+            )
+          );
+          setIsProcessing(false);
+        } else {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === message.id
+                ? {
+                    ...msg,
+                    error: {
+                      message:
+                        "Additional resources need to be downloaded for processing this text.",
+                      action: {
+                        type: "summarizer",
+                        label: "Download Summarizer Pack",
+                      },
+                    },
+                  }
+                : msg
+            )
+          );
+        }
       } else {
-       setMessages((prev) =>
-         prev.map((msg) =>
-           msg.id === message.id
-             ? {
-                 ...msg,
-                 error: {
-                   message:
-                     "Additional resources need to be downloaded for processing this text.",
-                   action: {
-                     type: "summarizer",
-                     label: "Download Summarizer Pack",
-                   },
-                 },
-               }
-             : msg
-         )
-       );
+        console.log("The summarization api isn't supported");
+        setError("The summarization api isn't supported");
       }
     } else {
-      console.log("The summarization api isn't supported");
-      setError("The summarization api isn't supported");
+      setError('Only text in English can be Translated.')
     }
   };
 
@@ -220,7 +223,10 @@ export const MessageItems = ({ message }) => {
           <span className="text-sm">AI is processing...</span>
         </div>
       )}
-      {message.summary && !isDownloading && !isProcessing && selectedFeature === 'summarize' ? (
+      {message.summary &&
+      !isDownloading &&
+      !isProcessing &&
+      selectedFeature === "summarize" ? (
         <div className="mt-2 p-3 bg-white rounded border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Summary:</div>
           <p className="text-gray-800">{message.summary}</p>
@@ -228,7 +234,10 @@ export const MessageItems = ({ message }) => {
       ) : (
         ""
       )}
-      {message.translation && !isDownloading && !isProcessing && selectedFeature === 'translate' ? (
+      {message.translation &&
+      !isDownloading &&
+      !isProcessing &&
+      selectedFeature === "translate" ? (
         <div className="mt-2 p-3 bg-white rounded border border-gray-200">
           <div className="text-sm font-medium text-gray-500">Translation:</div>
           <p className="text-gray-800">{message.translation}</p>
