@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
+
 .chat_box {
   scroll-behavior: smooth;
   scrollbar-width: none;
