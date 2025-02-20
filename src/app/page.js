@@ -6,7 +6,7 @@ const page = () => {
   
 
   return (
-    <section className="flex flex-col h-screen bg-white/80">
+    <section className="flex flex-col h-dvh bg-white/80">
       <div className="p-6 border-b bg-white/90 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-purple-100 rounded-lg">
